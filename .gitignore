@@ -1,0 +1,56 @@
+# Python bytecode and tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Personal notes that are intentionally not part of the public project
+private/
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Browser automation artifacts and profiles
+playwright-report/
+test-results/
+blob-report/
+trace.zip
+screenshots/
+downloads/
+browser-profile/
+chrome-profile/
+
+# Runtime data, logs, and local databases
+logs/
+run_data/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# Keep small, sanitized fixtures and sample outputs under version control.
+!apps/**/fixtures/
+!apps/**/fixtures/**
+!apps/**/sample_output/
+!apps/**/sample_output/**
