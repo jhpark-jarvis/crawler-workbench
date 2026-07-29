@@ -2,6 +2,13 @@
 
 Playwright로 동적 렌더링 페이지를 수집하는 구현 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `PW-DOM-01`
+- 타겟: `https://quotes.toscrape.com/js-delayed/?delay=2000`
+- Selenium과 같은 데이터 contract를 Playwright locator와 auto-wait로 구현한다.
+- 완료 산출물: 동일 형식 결과, Selenium 비교 메모, trace 또는 screenshot
+
 ## 목표
 
 - locator 기반으로 DOM 요소를 안정적으로 찾는다.

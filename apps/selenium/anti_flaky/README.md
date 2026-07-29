@@ -2,6 +2,13 @@
 
 Selenium 기반 수집의 불안정성을 재현하고 줄이는 검증 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `SEL-FLAKY-01`
+- 타겟: `https://quotes.toscrape.com/js-delayed/?delay=2000`
+- 지연 로딩 timeout을 재현한 뒤 조건 기반 대기와 제한된 재시도로 안정화한다.
+- 완료 산출물: 실패 재현 기록, 안정화 코드, timeout·retry 로그
+
 ## 목표
 
 - explicit wait를 사용한다.

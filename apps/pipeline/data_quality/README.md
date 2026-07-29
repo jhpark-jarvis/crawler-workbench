@@ -2,6 +2,13 @@
 
 수집 결과를 정제하고 검증하는 파이프라인 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `PIPE-QUALITY-01`
+- 입력: Books 또는 JSONPlaceholder 결과에 오류를 섞은 fixture
+- 정상·결측·중복·잘못된 타입 행을 검사하고 제외 사유를 분리한다.
+- 완료 산출물: fixture, validation module, 유효/제외 행 결과
+
 ## 목표
 
 - 중복 기준을 설계한다.

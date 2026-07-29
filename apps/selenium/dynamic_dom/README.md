@@ -2,6 +2,13 @@
 
 Selenium으로 동적 렌더링 페이지를 수집하는 구현 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `SEL-DOM-01`
+- 타겟: `https://quotes.toscrape.com/js/`
+- JavaScript 렌더링 전후 차이를 확인하고 quote card가 나타난 뒤 데이터를 수집한다.
+- 완료 산출물: requests 비교 메모, 정제 결과, 조건 기반 대기 코드
+
 ## 목표
 
 - JS 실행 이후 생성되는 DOM을 수집한다.

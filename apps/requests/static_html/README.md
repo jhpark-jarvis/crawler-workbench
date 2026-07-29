@@ -2,6 +2,13 @@
 
 정적 페이지 수집 구현 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `REQ-STATIC-01`
+- 타겟: `https://books.toscrape.com/`
+- Books 1~3 페이지의 상품 목록을 수집하고, 상세 URL을 기준으로 정규화한다.
+- 완료 산출물: HTML fixture, SQLite upsert 결과, 실행 로그
+
 ## 목표
 
 - requests로 HTML을 가져온다.

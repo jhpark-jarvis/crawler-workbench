@@ -2,6 +2,13 @@
 
 공개 API 수집 구현 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `REQ-API-01`
+- 타겟: `https://jsonplaceholder.typicode.com/posts`
+- posts 목록을 pagination parameter와 함께 수집하고 JSON schema를 검증한다.
+- 완료 산출물: JSON fixture, 검증 결과, SQLite 또는 JSONL 결과
+
 ## 목표
 
 - REST API endpoint를 호출한다.

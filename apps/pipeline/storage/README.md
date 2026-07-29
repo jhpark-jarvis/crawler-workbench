@@ -2,6 +2,13 @@
 
 수집 데이터를 파일 또는 DB에 적재하는 파이프라인 시나리오입니다.
 
+## 목표 작업
+
+- 작업 ID: `PIPE-STORE-01`
+- 입력: Books 수집 결과 fixture
+- `source_id` unique key와 upsert로 재실행 안전한 SQLite 적재를 구현한다.
+- 완료 산출물: schema, storage module, 두 번 실행한 검증 결과
+
 ## 목표
 
 - SQLite 같은 관계형 저장소에 적재한다.
