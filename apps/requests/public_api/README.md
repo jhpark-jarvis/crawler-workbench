@@ -9,6 +9,25 @@
 - posts 목록을 pagination parameter와 함께 수집하고 JSON schema를 검증한다.
 - 완료 산출물: JSON fixture, 검증 결과, SQLite 또는 JSONL 결과
 
+## 산출물 예시
+
+```text
+public_api/
+  main.py
+  fixtures/posts_page_1.json
+  sample_output/posts.jsonl
+  sample_output/validation_report.json
+  notes.md
+```
+
+```json
+{"source_id":"jsonplaceholder:posts:1","user_id":1,"title":"sunt aut facere repellat provident occaecati excepturi optio reprehenderit","body":"..."}
+```
+
+```json
+{"fetched":10,"valid":10,"invalid":0,"duplicate":0,"next_page":2}
+```
+
 ## 목표
 
 - REST API endpoint를 호출한다.

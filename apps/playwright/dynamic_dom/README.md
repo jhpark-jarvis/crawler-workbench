@@ -9,6 +9,22 @@ Playwright로 동적 렌더링 페이지를 수집하는 구현 시나리오입�
 - Selenium과 같은 데이터 contract를 Playwright locator와 auto-wait로 구현한다.
 - 완료 산출물: 동일 형식 결과, Selenium 비교 메모, trace 또는 screenshot
 
+## 산출물 예시
+
+```text
+dynamic_dom/
+  main.py
+  sample_output/quotes.jsonl
+  sample_output/run_summary.json
+  notes.md
+```
+
+```json
+{"tool":"playwright","locator":"div.quote","status":"success","records":10,"elapsed_ms":2417}
+```
+
+`notes.md`에는 Selenium 구현과 비교한 locator, 대기 방식, 실패 진단 방식의 차이를 기록한다.
+
 ## 목표
 
 - locator 기반으로 DOM 요소를 안정적으로 찾는다.

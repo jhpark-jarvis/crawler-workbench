@@ -9,6 +9,23 @@
 - `source_id` unique key와 upsert로 재실행 안전한 SQLite 적재를 구현한다.
 - 완료 산출물: schema, storage module, 두 번 실행한 검증 결과
 
+## 산출물 예시
+
+```text
+storage/
+  main.py
+  schema.sql
+  storage.py
+  sample_output/upsert_verification.json
+  notes.md
+```
+
+```json
+{"input_rows":3,"first_run":{"inserted":3,"updated":0,"table_rows":3},"second_run":{"inserted":0,"updated":3,"table_rows":3}}
+```
+
+`schema.sql`에는 `source`, `source_id` unique constraint와 수집 시각 컬럼을 포함한다.
+
 ## 목표
 
 - SQLite 같은 관계형 저장소에 적재한다.

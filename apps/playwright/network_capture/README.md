@@ -9,6 +9,24 @@ Playwright로 페이지의 네트워크 요청을 분석하고, 가능하면 API
 - XHR 응답을 관찰하고 확인된 JSON endpoint를 직접 HTTP 호출로 전환한다.
 - 완료 산출물: 네트워크 관찰 기록, browser/direct 구현, 결과 비교
 
+## 산출물 예시
+
+```text
+network_capture/
+  observe_network.py
+  collect_direct.py
+  sample_output/network_observation.json
+  sample_output/browser_result.jsonl
+  sample_output/direct_result.jsonl
+  notes.md
+```
+
+```json
+{"request_url":"https://www.scrapethissite.com/pages/ajax-javascript/?ajax=true&year=2015","method":"GET","status":200,"content_type":"application/json"}
+```
+
+`notes.md`에는 browser/direct 결과 건수 비교와 직접 호출로 전환해도 되는 근거를 기록한다.
+
 ## 목표
 
 - XHR, fetch 요청을 관찰한다.

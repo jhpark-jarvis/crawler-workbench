@@ -9,6 +9,26 @@ Selenium 기반 수집의 불안정성을 재현하고 줄이는 검증 시나�
 - 지연 로딩 timeout을 재현한 뒤 조건 기반 대기와 제한된 재시도로 안정화한다.
 - 완료 산출물: 실패 재현 기록, 안정화 코드, timeout·retry 로그
 
+## 산출물 예시
+
+```text
+anti_flaky/
+  main.py
+  sample_output/run_failure.json
+  sample_output/run_success.json
+  notes.md
+```
+
+```json
+{"run_id":"20260729T100000Z","attempt":1,"status":"timeout","waited_seconds":1,"reason":"quote card not visible"}
+```
+
+```json
+{"run_id":"20260729T100000Z","attempt":2,"status":"success","waited_seconds":2.1,"records":10}
+```
+
+`notes.md`에는 실패를 재현한 timeout 값과 재시도하지 않아야 하는 오류 기준을 기록한다.
+
 ## 목표
 
 - explicit wait를 사용한다.
