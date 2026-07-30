@@ -3,7 +3,9 @@ import bs4
 import os
 import json
 import sys
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
+from urllib.parse import urlparse
 
 # Allow this scenario to import shared helpers when run as a script.
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -13,7 +15,10 @@ if str(PROJECT_ROOT) not in sys.path:
 from sql import connect, execute, execute_many, transaction
 
 DATABASE_PATH = PROJECT_ROOT / "workbench.db"
-JSONL_OUTPUT_PATH = Path(__file__).resolve().parent / "sample_output" / "books.jsonl"
+SCENARIO_DIR = Path(__file__).resolve().parent
+FIXTURE_PATH = SCENARIO_DIR / "fixtures" / "books_page_1.html"
+JSONL_OUTPUT_PATH = SCENARIO_DIR / "sample_output" / "books.jsonl"
+REJECTED_JSONL_OUTPUT_PATH = SCENARIO_DIR / "sample_output" / "rejected_books.jsonl"
 
 CREATE_BOOKS_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS books (
@@ -57,11 +62,57 @@ def parse_html(html_content):
     return bs4.BeautifulSoup(html_content, 'html.parser')
 
 def save_fixture(soup, filename):
-    with open(filename, 'w', encoding='utf-8') as f:
+    fixture_path = Path(filename)
+    fixture_path.parent.mkdir(parents=True, exist_ok=True)
+    with fixture_path.open('w', encoding='utf-8') as f:
         f.write(soup.prettify())
 
 def convert_rating(star):
     return star_mapping.get(star, 0)  # Return 0 if the rating is not found
+
+
+def validate_books(json_data):
+    valid_books = []
+    rejected_books = []
+    seen_source_ids = set()
+
+    for row_index, book in enumerate(json_data):
+        reason_codes = []
+        missing_fields = [field for field in ("source_id", "title", "price_gbp", "availability", "rating") if not book.get(field)]
+        if missing_fields:
+            reason_codes.append("missing_required_field")
+
+        source_id = book.get("source_id", "")
+        parsed_url = urlparse(source_id)
+        if not parsed_url.scheme or not parsed_url.netloc:
+            reason_codes.append("invalid_source_id")
+        elif source_id in seen_source_ids:
+            reason_codes.append("duplicate_source_id")
+
+        try:
+            if Decimal(str(book.get("price_gbp"))) < 0:
+                reason_codes.append("invalid_price_gbp")
+        except (InvalidOperation, TypeError, ValueError):
+            reason_codes.append("invalid_price_gbp")
+
+        rating = book.get("rating")
+        if not isinstance(rating, int) or not 1 <= rating <= 5:
+            reason_codes.append("invalid_rating")
+
+        if reason_codes:
+            rejected_books.append(
+                {
+                    "row_index": row_index,
+                    "reason_codes": reason_codes,
+                    "record": book,
+                }
+            )
+            continue
+
+        seen_source_ids.add(source_id)
+        valid_books.append(book)
+
+    return valid_books, rejected_books
 
 
 def create_books_table():
@@ -100,14 +151,20 @@ def export_books_jsonl(json_data):
             output_file.write(json.dumps(book, ensure_ascii=False) + "\n")
 
 
+def export_rejected_books_jsonl(rejected_books):
+    REJECTED_JSONL_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with REJECTED_JSONL_OUTPUT_PATH.open("w", encoding="utf-8") as output_file:
+        for rejected_book in rejected_books:
+            output_file.write(json.dumps(rejected_book, ensure_ascii=False) + "\n")
+
+
 
 if __name__ == "__main__":
     create_books_table()
 
     #region html_fixtures 산출물
-    os.makedirs("./fixtures", exist_ok=True)
     html_fixture = parse_html(fetch_html("https://books.toscrape.com/catalogue/page-1.html"))
-    save_fixture(html_fixture, "./fixtures/books_page_1.html")
+    save_fixture(html_fixture, FIXTURE_PATH)
     #endregion
     
     data_list = []
@@ -134,8 +191,10 @@ if __name__ == "__main__":
                     "rating": rating
                 })
     
-    upsert_books(data_list)
-    export_books_jsonl(data_list)
+    valid_books, rejected_books = validate_books(data_list)
+    upsert_books(valid_books)
+    export_books_jsonl(valid_books)
+    export_rejected_books_jsonl(rejected_books)
 
     print(json.dumps(data_list, indent=4))
     print(len(data_list))
