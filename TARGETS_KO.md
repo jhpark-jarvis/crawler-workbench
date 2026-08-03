@@ -26,7 +26,7 @@
 | `apps/selenium/dynamic_loading` | [The Internet - Dynamic Loading](https://the-internet.herokuapp.com/dynamic_loading/1) | 클릭, 명시적 대기, timeout 처리 | 실행 상태, 결과 텍스트, 대기 조건 |
 | `apps/selenium/anti_flaky` | [Quotes to Scrape delayed](https://quotes.toscrape.com/js-delayed/?delay=2000) | 명시적 대기, timeout, 빈 결과와 지연 로딩 대응 | 인용문, 작가, 태그 |
 | `apps/playwright/dynamic_dom` | [Quotes to Scrape delayed](https://quotes.toscrape.com/js-delayed/?delay=2000) | Playwright locator와 auto-wait, Selenium 구현 비교 | 인용문, 작가, 태그 |
-| `apps/playwright/network_capture` | [Scrape This Site AJAX](https://www.scrapethissite.com/pages/ajax-javascript/) | XHR 식별, 응답 가로채기, API 직접 호출로 전환 | 연도별 팀명, 승/패, 득점 |
+| `apps/playwright/network_capture` | [Scrape This Site AJAX](https://www.scrapethissite.com/pages/ajax-javascript/) | XHR 식별, 응답 가로채기, API 직접 호출로 전환 | 영화 제목, 연도, 수상·후보 수, Best Picture 여부 |
 | `apps/pipeline/data_quality` | Books 또는 JSONPlaceholder에서 저장한 fixture | 스키마·결측·형식·범위·중복 검사 | 의도적으로 섞은 정상/중복/결측/잘못된 타입 행 |
 | `apps/pipeline/storage` | Books 수집 결과 fixture | SQLite 스키마, upsert, idempotency | `source`, `source_id`, 수집 시각, 정규화 필드 |
 | `apps/pipeline/scheduler` | JSONPlaceholder fixture 또는 위 SQLite DB | job 실행 이력, 재시도, 실패 알림 기준 | job ID, 시작·종료 시각, 상태, 레코드 수, 오류 |
