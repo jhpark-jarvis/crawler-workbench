@@ -1,0 +1,30 @@
+[
+    {
+        "run_id": "20260803T084653Z",
+        "attempt": 1,
+        "status": "timeout",
+        "waited_seconds": 0,
+        "reason": "quote card not visible"
+    },
+    {
+        "run_id": "20260803T084654Z",
+        "attempt": 2,
+        "status": "timeout",
+        "waited_seconds": 0.5,
+        "reason": "quote card not visible"
+    },
+    {
+        "run_id": "20260803T084656Z",
+        "attempt": 3,
+        "status": "timeout",
+        "waited_seconds": 1.0,
+        "reason": "quote card not visible"
+    },
+    {
+        "run_id": "20260803T084658Z",
+        "attempt": 4,
+        "status": "timeout",
+        "waited_seconds": 1.5,
+        "reason": "quote card not visible"
+    }
+]
