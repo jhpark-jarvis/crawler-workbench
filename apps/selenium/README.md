@@ -6,6 +6,8 @@
 
 - `dynamic_dom/`
   - JS 렌더링 이후 DOM 파싱
+- `dynamic_loading/`
+  - 사용자 상호작용 이후 나타나는 요소의 명시적 대기
 - `anti_flaky/`
   - wait, retry, timeout, screenshot 같은 안정화 포인트 점검
 

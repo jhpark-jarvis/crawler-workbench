@@ -23,6 +23,7 @@
 | `apps/requests/static_html` | [Books to Scrape](https://books.toscrape.com/) | 정적 HTML, CSS selector, 페이지네이션 | 제목, 가격, 재고 상태, 평점, 상세 URL |
 | `apps/requests/public_api` | [JSONPlaceholder posts](https://jsonplaceholder.typicode.com/posts) | REST API, query parameter, JSON 검증 | `id`, `userId`, `title`, `body` |
 | `apps/selenium/dynamic_dom` | [Quotes to Scrape JavaScript](https://quotes.toscrape.com/js/) | JavaScript 렌더링 후 DOM 대기·파싱 | 인용문, 작가, 태그 |
+| `apps/selenium/dynamic_loading` | [The Internet - Dynamic Loading](https://the-internet.herokuapp.com/dynamic_loading/1) | 클릭, 명시적 대기, timeout 처리 | 실행 상태, 결과 텍스트, 대기 조건 |
 | `apps/selenium/anti_flaky` | [Quotes to Scrape delayed](https://quotes.toscrape.com/js-delayed/?delay=2000) | 명시적 대기, timeout, 빈 결과와 지연 로딩 대응 | 인용문, 작가, 태그 |
 | `apps/playwright/dynamic_dom` | [Quotes to Scrape delayed](https://quotes.toscrape.com/js-delayed/?delay=2000) | Playwright locator와 auto-wait, Selenium 구현 비교 | 인용문, 작가, 태그 |
 | `apps/playwright/network_capture` | [Scrape This Site AJAX](https://www.scrapethissite.com/pages/ajax-javascript/) | XHR 식별, 응답 가로채기, API 직접 호출로 전환 | 연도별 팀명, 승/패, 득점 |
@@ -58,16 +59,19 @@
 - 수집 전 `requests`로 동일 URL을 받아 보고, 왜 브라우저가 필요한지 `notes.md`에
   비교 기록합니다.
 
+### `selenium/dynamic_loading`: The Internet
+
+- `Start` 버튼을 누른 뒤 숨겨진 요소가 나타나는 시점을 명시적 대기로 다룹니다.
+- 데이터 수집 타겟이 아니라 click, wait condition, timeout 처리의 재현 가능한 브라우저
+  검증 타겟입니다.
+- 성공 조건은 `#finish h4`가 visible 상태가 되고 `Hello World!` 텍스트가 나오는 것입니다.
+
 ### `selenium/anti_flaky`: 지연 로딩 Quotes
 
 - `?delay=2000`으로 의도적인 지연을 만들 수 있어 timeout과 대기 조건을 재현하기
   좋습니다.
 - 첫 구현은 짧은 timeout으로 실패를 재현하고, 이후 조건 기반 대기와 충분한 timeout으로
   안정화합니다.
-- 보조 타겟: [The Internet - Dynamic Loading](https://the-internet.herokuapp.com/dynamic_loading/1)
-  은 숨겨진 요소가 나타나는 시점을 다루는 짧은 브라우저 자동화 실험에 사용합니다.
-  이는 수집 대상이 아니라 대기 전략 검증용입니다.
-
 ### `playwright/dynamic_dom`: 지연 로딩 Quotes
 
 - Selenium과 같은 문제를 Playwright로 구현해 locator, auto-wait, timeout 관리의 차이를
