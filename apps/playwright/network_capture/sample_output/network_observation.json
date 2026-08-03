@@ -1,0 +1,6 @@
+{
+  "request_url": "https://www.scrapethissite.com/pages/ajax-javascript/?ajax=true&year=2015",
+  "method": "GET",
+  "status": 200,
+  "content_type": "application/json"
+}
