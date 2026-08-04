@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
+from selenium.common.exceptions import TimeoutException, WebDriverException
 
 TARGET_URL = "https://quotes.toscrape.com/js-delayed/?delay=2000"
 SCENARIO_DIR = Path(__file__).resolve().parent
@@ -80,30 +80,40 @@ def main():
             print(quotes)
             break
             
-        except Exception as e:
-            err_msg = repr(e)
+        except TimeoutException as e:
             driver.save_screenshot(SCENARIO_DIR / f"sample_output" / f"error_screenshot_{get_time()}.png")
-            if "Timeout" in str(err_msg):
-                print(f"Timeout occurred after {wait_time_s} seconds. Retrying...")
-                failure_list.append({
-                                "run_id": get_time(),
-                                "attempt": attempt,
-                                "status": "timeout",
-                                "waited_seconds": wait_time_s,
-                                "reason": "quote card not visible"
-                            })
-                wait_time_s += 0.5
-                
-            else:
-                print(f"An error occurred: {e}")
-                failure_list.append({
-                    "run_id": get_time(),
-                    "attempt": attempt,
-                    "status": "error",
-                    "waited_seconds": wait_time_s,
-                    "reason": str(e),
-                })
-                break
+
+            print(f"Timeout occurred after {wait_time_s} seconds. Retrying...")
+            failure_list.append({
+                            "run_id": get_time(),
+                            "attempt": attempt,
+                            "status": "timeout",
+                            "waited_seconds": wait_time_s,
+                            "reason": "quote card not visible"
+                        })
+            wait_time_s += 0.5
+        except WebDriverException as e:
+            driver.save_screenshot(SCENARIO_DIR / f"sample_output" / f"error_screenshot_{get_time()}.png")
+            print(f"WebDriverException occurred: {e}. Retrying...")
+            failure_list.append({
+                "run_id": get_time(),
+                "attempt": attempt,
+                "status": "webdriver_exception",
+                "waited_seconds": wait_time_s,
+                "reason": str(e),
+            })
+            wait_time_s += 0.5    
+        except Exception as e:
+            driver.save_screenshot(SCENARIO_DIR / f"sample_output" / f"error_screenshot_{get_time()}.png")
+            print(f"An error occurred: {e}")
+            failure_list.append({
+                "run_id": get_time(),
+                "attempt": attempt,
+                "status": "error",
+                "waited_seconds": wait_time_s,
+                "reason": str(e),
+            })
+            break
         finally:
             print(f"Attempt {attempt} completed. Waiting for {wait_time_s} seconds before next attempt.")
             attempt += 1
