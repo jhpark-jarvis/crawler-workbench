@@ -15,9 +15,10 @@ def main():
         page = browser.new_page()
 
         try:
+            # 클릭할 연도 링크가 준비될 만큼만 페이지의 초기 DOM 로딩을 기다린다.
             page.goto(TARGET_URL, wait_until="domcontentloaded", timeout=10_000)
 
-            # 2015 링크 클릭으로 발생하는 AJAX 응답 하나만 정확히 기다린다.
+            # 클릭 전에 대상 AJAX 응답을 기다리도록 등록해 빠른 응답도 놓치지 않는다.
             with page.expect_response(
                 lambda response: (
                     response.request.method == "GET"
@@ -25,10 +26,12 @@ def main():
                     and "year=2015" in response.url
                 )
             ) as response_info:
-                # 숫자로 시작하는 id는 '#2015' CSS 선택자로 사용할 수 없다.
+                # 숫자 ID는 속성 선택자로 찾고, 이 클릭이 2015년 영화 데이터 요청을 발생시킨다.
                 page.locator('[id="2015"]').click()
 
             response = response_info.value
+
+            # 직접 호출에 필요한 요청 URL과 응답 상태를 재현 가능한 형태로 기록한다.
             observation = {
                 "request_url": response.url,
                 "method": response.request.method,
@@ -36,6 +39,7 @@ def main():
                 "content_type": response.headers.get("content-type"),
             }
 
+            # 실행 환경과 무관하게 관찰 결과를 UTF-8 JSON 파일로 저장한다.
             OBSERVATION_PATH.parent.mkdir(parents=True, exist_ok=True)
             OBSERVATION_PATH.write_text(
                 json.dumps(observation, ensure_ascii=False, indent=2),
