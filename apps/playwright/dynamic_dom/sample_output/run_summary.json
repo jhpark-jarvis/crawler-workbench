@@ -1,0 +1,9 @@
+{
+  "tool": "playwright",
+  "locator": "div.quote",
+  "status": "success",
+  "fetched": 10,
+  "valid": 10,
+  "rejected": 0,
+  "elapsed_ms": 10732
+}

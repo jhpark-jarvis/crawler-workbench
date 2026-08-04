@@ -7,23 +7,27 @@ Playwright로 동적 렌더링 페이지를 수집하는 구현 시나리오입�
 - 작업 ID: `PW-DOM-01`
 - 타겟: `https://quotes.toscrape.com/js-delayed/?delay=2000`
 - Selenium과 같은 데이터 contract를 Playwright locator와 auto-wait로 구현한다.
-- 완료 산출물: 동일 형식 결과, Selenium 비교 메모, trace 또는 screenshot
+- 완료 산출물: 렌더링 fixture, 정상·제외 JSONL, 실행 요약, 실패 screenshot
 
 ## 산출물 예시
 
 ```text
 dynamic_dom/
   main.py
+  fixtures/quotes_rendered.html
   sample_output/quotes.jsonl
+  sample_output/rejected_quotes.jsonl
   sample_output/run_summary.json
+  sample_output/failure_screenshot.png
   notes.md
 ```
 
 ```json
-{"tool":"playwright","locator":"div.quote","status":"success","records":10,"elapsed_ms":2417}
+{"tool":"playwright","locator":"div.quote","status":"success","fetched":10,"valid":10,"rejected":0,"elapsed_ms":2417}
 ```
 
-`notes.md`에는 Selenium 구현과 비교한 locator, 대기 방식, 실패 진단 방식의 차이를 기록한다.
+`quotes.jsonl`과 `rejected_quotes.jsonl`의 구조는 Selenium 구현과 동일하다. `notes.md`에는
+Selenium 구현과 비교한 locator, 대기 방식, 실패 진단 방식의 차이를 기록한다.
 
 ## 목표
 
