@@ -10,6 +10,9 @@
 - `public_api/`
   - 공개 API 수집
   - JSON parsing, pagination, rate limit 대응
+- `policy_guard/`
+  - robots.txt 및 수집 정책 확인
+  - 요청 간격, 429/403 중단, 정책 준수 로그
 
 ## 검증 포인트
 

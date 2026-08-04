@@ -22,6 +22,7 @@
 | --- | --- | --- | --- |
 | `apps/requests/static_html` | [Books to Scrape](https://books.toscrape.com/) | 정적 HTML, CSS selector, 페이지네이션 | 제목, 가격, 재고 상태, 평점, 상세 URL |
 | `apps/requests/public_api` | [JSONPlaceholder posts](https://jsonplaceholder.typicode.com/posts) | REST API, query parameter, JSON 검증 | `id`, `userId`, `title`, `body` |
+| `apps/requests/policy_guard` | [Scrape This Site robots.txt](https://www.scrapethissite.com/robots.txt) | robots 규칙 판정, 요청 간격, `429/403` 중단 | 정책 확인 결과, 허용·차단 경로, 중단 사유 |
 | `apps/selenium/dynamic_dom` | [Quotes to Scrape JavaScript](https://quotes.toscrape.com/js/) | JavaScript 렌더링 후 DOM 대기·파싱 | 인용문, 작가, 태그 |
 | `apps/selenium/dynamic_loading` | [The Internet - Dynamic Loading](https://the-internet.herokuapp.com/dynamic_loading/1) | 클릭, 명시적 대기, timeout 처리 | 실행 상태, 결과 텍스트, 대기 조건 |
 | `apps/selenium/anti_flaky` | [Quotes to Scrape delayed](https://quotes.toscrape.com/js-delayed/?delay=2000) | 명시적 대기, timeout, 빈 결과와 지연 로딩 대응 | 인용문, 작가, 태그 |
@@ -51,6 +52,14 @@
 - 데이터가 가짜이고 비교적 고정적이므로, 변경 감지보다는 API 오류·timeout·재시도와
   idempotent 저장에 집중합니다.
 - 대체 타겟: 실제 공개 API는 인증 키, 이용 조건, 호출 한도를 별도로 확인한 뒤 추가합니다.
+
+### `requests/policy_guard`: Scrape This Site robots.txt
+
+- `robots.txt`가 `200 OK`로 제공되고 `/lessons/`, `/faq/`에 대한 금지 규칙이 있어 경로
+  판정 실습에 사용할 수 있습니다.
+- 실제 사이트에 `429`나 `403`을 유도하지 않습니다. 해당 응답과 `Retry-After` 처리는
+  fixture로 재현합니다.
+- 목표는 차단 회피가 아니라 수집 전 정책 확인, 보수적 요청, 차단 시 중단·기록입니다.
 
 ### `selenium/dynamic_dom`: Quotes to Scrape JavaScript
 
@@ -114,11 +123,12 @@
 
 1. `apps/requests/static_html`: Books 1~3 페이지를 수집하고 SQLite에 upsert
 2. `apps/requests/public_api`: posts를 수집하고 JSON schema·중복 검증
-3. `apps/selenium/dynamic_dom`: JavaScript Quotes를 수집하고 requests와 차이 기록
-4. `apps/selenium/anti_flaky`: 지연 로딩 실패와 안정화 구현
-5. `apps/playwright/dynamic_dom`: 같은 지연 로딩을 Playwright로 재구현
-6. `apps/playwright/network_capture`: XHR 관찰 후 direct API 호출로 전환
-7. `apps/pipeline/` 세 시나리오: 앞에서 만든 fixture와 결과를 재사용
+3. `apps/requests/policy_guard`: robots 규칙 확인과 `429/403` 중단을 fixture로 검증
+4. `apps/selenium/dynamic_dom`: JavaScript Quotes를 수집하고 requests와 차이 기록
+5. `apps/selenium/anti_flaky`: 지연 로딩 실패와 안정화 구현
+6. `apps/playwright/dynamic_dom`: 같은 지연 로딩을 Playwright로 재구현
+7. `apps/playwright/network_capture`: XHR 관찰 후 direct API 호출로 전환
+8. `apps/pipeline/` 세 시나리오: 앞에서 만든 fixture와 결과를 재사용
 
 ## 타겟 변경 절차
 
