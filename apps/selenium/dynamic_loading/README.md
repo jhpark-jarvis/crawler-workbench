@@ -18,6 +18,7 @@
 dynamic_loading/
   main.py
   sample_output/run_result.json
+  sample_output/failure_screenshot.png
   notes.md
 ```
 

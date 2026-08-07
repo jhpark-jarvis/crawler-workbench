@@ -1,0 +1,6 @@
+{
+  "target": "dynamic_loading/1",
+  "status": "success",
+  "result_text": "Hello World!",
+  "wait_condition": "visibility_of_element_located(#finish h4)"
+}
